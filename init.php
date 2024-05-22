@@ -1,3 +1,7 @@
 <?php
 
-echo("Olá pessoal");
+echo("Digite seu nome: ");
+
+$entrada = fgets(STDIN);
+
+echo "Você digitou " . $entrada;
