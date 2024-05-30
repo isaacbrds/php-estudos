@@ -5,6 +5,15 @@ use Slim\Views\PhpRenderer;
 
 class RenderView{
     public static function render($response, $data=[]){
+        list($controller, $action) = self::getControllerAction();
+
+        $renderer = new PhpRenderer(__DIR__);
+        $conteudo = $renderer->fetch("/$controller/$action.html.php", $data);
+        
+        return $renderer->render($response, "/Layouts/Layout.html.php", ['conteudo' => $conteudo]);
+    }
+
+    private static function getControllerAction() {
         $backtrace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
         $controllerName = '';
         $actionName = '';
@@ -21,7 +30,6 @@ class RenderView{
         $controller = str_replace('Controller', '', $controller);
         $action = ucfirst($actionName);
 
-        $renderer = new PhpRenderer(__DIR__);
-        return $renderer->render($response, "/$controller/$action.html.php", $data);
+        return [$controller, $action];
     }
 }
