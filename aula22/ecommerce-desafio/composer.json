@@ -1,0 +1,26 @@
+{
+    "name": "isaac/ecommerce-desafio",
+    "description": "Aprendendo o Framework Slim",
+    "license": "Free",
+    "autoload": {
+        "psr-4": {
+            "Isaac\\EcommerceDesafio\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Isaac Brígido Rodrigues dos Santos",
+            "email": "isaac.brigido@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.6"
+    },
+    "config": {
+        "process-timeout": 600
+    },
+    "scripts": {
+       "start": "php -S localhost:8080 src/index.php"
+    }
+}
