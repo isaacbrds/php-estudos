@@ -1,0 +1,1 @@
+mysql -uroot -p'123456' desafio_php_clientes < dump.sql
