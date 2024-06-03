@@ -19,7 +19,7 @@ class ClienteServico{
 
         if(!isset($cliente->telefone) || $cliente->telefone == '') 
             throw new VazioValidacao('Telefone não pode ser vazio');
-
+        
         if (!preg_match('/^\(\d{2}\) \d{4,5}-\d{4}$/', $cliente->telefone)) 
             throw new FormatoValidacao("O formato do telefone precisa ser (00) 00000-0000 ou (00) 0000-0000");
 

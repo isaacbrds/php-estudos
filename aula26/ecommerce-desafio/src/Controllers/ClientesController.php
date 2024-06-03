@@ -9,6 +9,9 @@ use Isaac\EcommerceDesafio\Repositorios\ClienteRepositorioIlluminate;
 use Isaac\EcommerceDesafio\Models\Cliente;
 use Isaac\EcommerceDesafio\Views\RenderView;
 use Isaac\EcommerceDesafio\Servicos\ClienteServico;
+use Isaac\EcommerceDesafio\Servicos\ErrosDeValidacao\FormatoValidacao;
+use Isaac\EcommerceDesafio\Servicos\ErrosDeValidacao\VazioValidacao;
+use Illuminate\Database\UniqueConstraintViolationException;
 
 class ClientesController
 {
@@ -56,8 +59,20 @@ class ClientesController
         );
 
         
-
-        self::servico()->salvar($cliente);
+        try{
+            self::servico()->salvar($cliente);
+        } catch (VazioValidacao $err) {
+            return RenderView::render($response, ["erro" => $err->getMessage()], "Form");
+        } 
+        catch (FormatoValidacao $err) {
+            return RenderView::render($response, ["erro" => $err->getMessage()], "Form");
+        } 
+        catch (UniqueConstraintViolationException $err) {
+            return RenderView::render($response, ["erro" => "Registro duplicado"], "Form");
+        }
+        catch (Exception $e) {
+            return RenderView::render($response, ["erro" => "Erro genérico: {$e->getMessage()}"], "Form");
+        }
         
 
         return $response->withStatus(302)->withHeader('Location', '/clientes');

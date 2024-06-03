@@ -7,7 +7,7 @@ use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
 use PHPUnit\Framework\Assert;
-use Danilo\EcommerceDesafio\Repositorios\Infraestrutura\MysqlRepositorio;
+use Isaac\EcommerceDesafio\Repositorios\Infraestrutura\MysqlRepositorio;
 
 class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingContext
 {
@@ -16,7 +16,8 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function queEuEstouNaPaginaDeNovoCliente()
     {
-        $this->getSession()->visit('http://localhost:8080/');
+        MysqlRepositorio::instancia()->execute("truncate table clientes");
+        $this->getSession()->visit('http://localhost:8080/clientes/novo');
     }
 
     /**
@@ -24,7 +25,14 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function euPreenchoTodosOsCamposEClicoEmCadastrar()
     {
-        throw new PendingException();
+        $page = $this->getSession()->getPage();
+        $page->fillField('nome', "Nome Teste");
+        $page->fillField('email', 'teste@email.com');
+        $page->fillField('telefone', "(31) 4444-4444");
+        $page->fillField('endereco', 'Rua Teste, 123');
+
+        $page->pressButton('Enviar');
+        
     }
 
     /**
@@ -32,7 +40,13 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function euDevoVerOItemNaTabelaDeClientes()
     {
-        throw new PendingException();
+        $page = $this->getSession()->getPage();
+
+        // Verifica se a tabela contém as informações do cliente que adicionamos
+        Assert::assertTrue($page->hasContent('Nome Teste'));
+        Assert::assertTrue($page->hasContent('teste@email.com'));
+        Assert::assertTrue($page->hasContent('(31) 4444-4444'));
+        Assert::assertTrue($page->hasContent('Rua Teste, 123'));
     }
 
     /**
@@ -40,7 +54,15 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function euPreenchoOTelefoneErradoDepoisClicoEmCadastrar()
     {
-        throw new PendingException();
+        $page = $this->getSession()->getPage();
+
+        // Verifica se a tabela contém as informações do cliente que adicionamos
+        $page->fillField('nome', "Nome Teste");
+        $page->fillField('email', 'testetefeleoneerrado@email.com');
+        $page->fillField('telefone', '(31) xxxx4444-4444');
+        $page->fillField('endereco', 'Rua Teste, 123');
+
+        $page->pressButton('Enviar');
     }
 
     /**
@@ -48,7 +70,8 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function euDevoVerAMensagemDeErro()
     {
-        throw new PendingException();
+        $page = $this->getSession()->getPage();
+        Assert::assertTrue($page->hasContent('O formato do telefone precisa ser (00) 00000-0000 ou (00) 0000-0000'));
     }
 
     /**
@@ -56,7 +79,18 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function euCadastroVezesOClienteDuplicado($arg1)
     {
-        throw new PendingException();
+        $sql = "INSERT INTO clientes (nome, email, telefone, endereco) VALUES ('Duplicado', 'duplicado@email.com', '(31) 4444-4444', 'Rua Teste, 123 duplicado')";
+        MysqlRepositorio::instancia()->execute($sql);
+
+        $page = $this->getSession()->getPage();
+
+        $page->fillField('nome', "Duplicado");
+        $page->fillField('email', 'duplicado@email.com');
+        $page->fillField('telefone', '(31) 4444-4444');
+        $page->fillField('endereco', 'Rua Teste, 123 duplicado');
+
+        $page->pressButton('Enviar');
+        sleep(5);
     }
 
     /**
@@ -64,7 +98,7 @@ class ClientesSteps extends RawMinkContext implements Context, SnippetAcceptingC
      */
     public function devoTeAMensagemDeErroDuplicado()
     {
-        throw new PendingException();
+        $page = $this->getSession()->getPage();
+        Assert::assertTrue($page->hasContent('Registro duplicado'));
     }
-
 }

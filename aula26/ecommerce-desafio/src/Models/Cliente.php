@@ -9,7 +9,7 @@ class Cliente{
     public $telefone;
     public $endereco;
 
-    public function __construct($_id=0, $_nome = '', $_telefone = '',  $_email = '', $_endereco = '') {
+    public function __construct($_id=0, $_nome = '',  $_email = '', $_telefone = '', $_endereco = '') {
         $this->id = $_id;
         $this->nome = $_nome;
         $this->email = $_email;

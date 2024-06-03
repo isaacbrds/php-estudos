@@ -9,12 +9,12 @@ class ClienteTest extends TestCase
 {
     public function testConstructor()
     {
-        $cliente = new Cliente(1, "Danilo", "123456789", "danilo@example.com", "Rua ABC, 123");
+        $cliente = new Cliente(1, "Danilo", "danilo@example.com", "(12) 2345-6789", "Rua ABC, 123");
 
         $this->assertSame(1, $cliente->id);
         $this->assertSame("Danilo", $cliente->nome);
-        $this->assertSame("123456789", $cliente->telefone);
         $this->assertSame("danilo@example.com", $cliente->email);
+        $this->assertSame("(12) 2345-6789", $cliente->telefone);
         $this->assertSame("Rua ABC, 123", $cliente->endereco);
     }
 
@@ -29,9 +29,9 @@ class ClienteTest extends TestCase
     public function testTelefoneAttribute()
     {
         $cliente = new Cliente();
-        $cliente->telefone = "123456789";
+        $cliente->telefone = "(12) 2345-6789";
 
-        $this->assertSame("123456789", $cliente->telefone);
+        $this->assertSame("(12) 2345-6789", $cliente->telefone);
     }
 
     public function testEmailAttribute()
