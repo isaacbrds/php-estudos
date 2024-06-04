@@ -4,39 +4,30 @@ namespace Isaac\EcommerceDesafio\Controllers;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Isaac\EcommerceDesafio\Repositorios\ClienteRepositorioMysql;
-use Isaac\EcommerceDesafio\Repositorios\ClienteRepositorioIlluminate;
-use Isaac\EcommerceDesafio\Models\Cliente;
+use Isaac\EcommerceDesafio\Repositorios\PedidoRepositorioMysql;
+use Isaac\EcommerceDesafio\Repositorios\PedidoRepositorioIlluminate;
+use Isaac\EcommerceDesafio\Models\Pedido;
 use Isaac\EcommerceDesafio\Views\RenderView;
-use Isaac\EcommerceDesafio\Servicos\ClienteServico;
+use Isaac\EcommerceDesafio\Servicos\PedidoServico;
 use Isaac\EcommerceDesafio\Servicos\ErrosDeValidacao\FormatoValidacao;
 use Isaac\EcommerceDesafio\Servicos\ErrosDeValidacao\VazioValidacao;
 use Illuminate\Database\UniqueConstraintViolationException;
 
-class ClientesController
+class PedidosController
 {
     private static $servico;
     private static function servico(){
-        //if(!isset($servico)) $servico = new ClienteServico( new ClienteRepositorioMysql());
-        if(!isset($servico)) $servico = new ClienteServico( new ClienteRepositorioIlluminate());
+        //if(!isset($servico)) $servico = new PedidoServico( new PedidoRepositorioMysql());
+        if(!isset($servico)) $servico = new PedidoServico( new PedidoRepositorioIlluminate());
         return $servico;
     }
 
     public static function index(Request $request, Response $response, array $args): Response
     {
         
-        $clientes = self::servico()->buscar();
-        return RenderView::render($response,['clientes'=>$clientes]);
-    }
-
-    public static function indexJson(Request $request, Response $response, array $args): Response
-    {
-        $queryString = $request->getQueryParams();
-        $nome = $queryString['nome'] ?? "";
-        $clientes = self::servico()->buscar(["nome" => $nome]);
-        $response = $response->withHeader('Content-Type', 'application/json');
-        $response->getBody()->write(json_encode($clientes));
-        return $response;
+        $pedidos = self::servico()->buscar();
+        
+        return RenderView::render($response,['pedidos'=>$pedidos]);
     }
 
     public static function novo(Request $request, Response $response, array $args): Response
@@ -47,30 +38,29 @@ class ClientesController
     public static function editar(Request $request, Response $response, array $args): Response
     {
         $id = $request->getAttribute('id');
-        $cliente = self::servico()->buscarPorId($id);
-        if(!isset($cliente)) return $response->withStatus(302)->withHeader('Location', '/clientes');
+        $pedido = self::servico()->buscarPorId($id);
+        if(!isset($pedido)) return $response->withStatus(302)->withHeader('Location', '/pedidos');
 
-        return RenderView::render($response,['cliente'=>$cliente], 'Form');
+        return RenderView::render($response,['pedido'=>$pedido], 'Form');
     }
 
     public static function atualizar(Request $request, Response $response, array $args): Response
     {
         $id = $request->getAttribute('id');
-        $cliente = self::servico()->buscarPorId($id);
-        if(!isset($cliente)) return $response->withStatus(302)->withHeader('Location', '/clientes');
+        $pedido = self::servico()->buscarPorId($id);
+        if(!isset($pedido)) return $response->withStatus(302)->withHeader('Location', '/pedidos');
 
         $dado  = $request->getParsedBody();
-        $cliente = new Cliente(
+        $pedido = new Pedido(
             $id,
-            $dado['nome'] ?? "",
-            $dado['email'] ?? "",
-            $dado['telefone'] ?? "",
-            $dado['endereco'] ?? ""
+            $dado['clienteId'] ?? 0,
+            $dado['valorTotal'] ?? 0,
+            $dado['descricao'] ?? ""
         );
 
         
         try{
-            self::servico()->salvar($cliente);
+            self::servico()->salvar($pedido);
         } catch (VazioValidacao $err) {
             return RenderView::render($response, ["erro" => $err->getMessage()], "Form");
         } 
@@ -85,26 +75,37 @@ class ClientesController
         }
         
 
-        return $response->withStatus(302)->withHeader('Location', '/clientes');
+        return $response->withStatus(302)->withHeader('Location', '/pedidos');
     }
 
     public static function criar(Request $request, Response $response, array $args): Response
     {
         
         $dado  = $request->getParsedBody();
-        $cliente = new Cliente(
+        $pedido = new Pedido(
             null,
-            $dado['nome'] ?? "",
-            $dado['email'] ?? "",
-            $dado['telefone'] ?? "",
-            $dado['endereco'] ?? ""
+            $dado['clienteId'] ?? 0,
+            $dado['valorTotal'] ?? 0,
+            $dado['descricao'] ?? ""
         );
-
         
-
-        self::servico()->salvar($cliente);
+        try{
+            self::servico()->salvar($pedido);
+        } catch (VazioValidacao $err) {
+            return RenderView::render($response, ["erro" => $err->getMessage()], "Form");
+        } 
+        catch (FormatoValidacao $err) {
+            return RenderView::render($response, ["erro" => $err->getMessage()], "Form");
+        } 
+        catch (UniqueConstraintViolationException $err) {
+            return RenderView::render($response, ["erro" => "Registro duplicado"], "Form");
+        }
+        catch (Exception $e) {
+            return RenderView::render($response, ["erro" => "Erro genérico: {$e->getMessage()}"], "Form");
+        }
         
-        return $response->withStatus(302)->withHeader('Location', '/clientes');
+        
+        return $response->withStatus(302)->withHeader('Location', '/pedidos');
     }
 
     public static function excluir(Request $request, Response $response, array $args): Response
@@ -112,6 +113,6 @@ class ClientesController
         $id = $request->getAttribute('id');
         self::servico()->excluirPorId($id);
         
-        return $response->withStatus(302)->withHeader('Location', '/clientes');
+        return $response->withStatus(302)->withHeader('Location', '/pedidos');
     }
 }
