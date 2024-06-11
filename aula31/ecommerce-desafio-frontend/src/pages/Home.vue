@@ -2,31 +2,30 @@
     <header class="py-5">
         <div class="container px-5 pb-5">
             <div class="row gx-5 align-items-center">
-                <div class="col-xxl-12">
+                <div class="col-xxl-5">
                     <!-- Header text content-->
                     <div class="text-center text-xxl-start">
                         <div class="badge bg-gradient-primary-to-secondary text-white mb-4">
-                            <div class="text-uppercase">Design &middot; Development &middot; Marketing</div>
+                            <div class="text-uppercase">Design · Development · Marketing</div>
                         </div>
                         <div class="fs-3 fw-light text-muted">O que posso fazer por você hoje?</div>
-                        <h1 class="display-3 fw-bolder mb-5"><span class="text-gradient d-inline">
-
-                            </span></h1>
+                        <h1 class="display-3 fw-bolder mb-5"><span class="text-gradient d-inline">Seja nosso
+                                Cliente</span></h1>
                         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
-                            <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder"
-                                href="/pedidos/novo">Criar Pedido</a>
-                            <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="/clientes/novo">Criar
-                                Cliente</a>
+                            <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" href="resume.html">Criar
+                                Clientes</a>
+                            <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="projects.html">Criar
+                                Pedidos</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-xxl-12">
+                <div class="col-xxl-7">
                     <!-- Header profile picture-->
-                    <div class="d-flex justify-content-center mt-5 mt-xx-l0">
+                    <div class="d-flex justify-content-center mt-5 mt-xxl-0">
                         <div class="profile bg-gradient-primary-to-secondary">
                             <!-- TIP: For best results, use a photo with a transparent background like the demo example below-->
                             <!-- Watch a tutorial on how to do this on YouTube (link)-->
-                            <img class="profile-img" src="/profile.png" alt="..." />
+                            <img class="profile-img" src="/profile.png" alt="...">
                             <div class="dots-1">
                                 <!-- SVG Dots-->
                                 <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -311,57 +310,12 @@
                                 </svg>
                                 <!-- END of SVG dots-->
                             </div>
-
-                            <section class="bg-light py-5">
-                                <div class="container px-5">
-                                    <div class="row gx-5 justify-content-center">
-                                        <div class="col-xxl-12">
-                                            <div class="text-center my-5">
-                                                <h2 class="display-5 fw-bolder"><span
-                                                        class="text-gradient d-inline">Sobre o projeto</span></h2>
-                                                <p class="text-muted">
-                                                    Este software foi desenvolvido ao vivo, em colaboração direta com os
-                                                    alunos dedicados da comunidade <strong>"Torne-se um
-                                                        Programador"</strong>. Foi uma experiência incrível de
-                                                    aprendizado coletivo e interação em tempo real.
-                                                </p>
-                                                <p class="text-muted">
-                                                    Se você perdeu a sessão ao vivo ou deseja revisitar o treinamento,
-                                                    pode <a
-                                                        href="https://www.torneseumprogramador.com.br/cursos/desafio_php/aulas"
-                                                        target="_blank" rel="noopener noreferrer">assistir à gravação do
-                                                        treinamento aqui</a>.
-                                                </p>
-                                                <div class="d-flex justify-content-center fs-2 gap-4">
-                                                    <a class="text-gradient" href="https://twitter.com/didox"
-                                                        target="_blank"><i class="bi bi-twitter"></i></a>
-                                                    <a class="text-gradient"
-                                                        href="https://www.linkedin.com/in/danilo-aparecido-dos-santos-03101034/"
-                                                        target="_blank"><i class="bi bi-linkedin"></i></a>
-                                                    <a class="text-gradient"
-                                                        href="https://github.com/torneseumprogramador/desafio_php"
-                                                        target="_blank"><i class="bi bi-github"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </section>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
-    <!-- Footer-->
-    <footer class="bg-white py-4 mt-auto">
-        <div class="container px-5">
-            <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                <div class="col-auto">
-                    <div class="small m-0">Copyright &copy; Torne-se um programador 2023</div>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
 
 </template>
