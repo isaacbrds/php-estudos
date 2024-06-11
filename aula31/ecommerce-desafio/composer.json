@@ -1,0 +1,41 @@
+{
+    "name": "isaac/ecommerce-desafio",
+    "description": "Aprendendo o Framework Slim",
+    "license": "Free",
+    "autoload": {
+        "psr-4": {
+            "Isaac\\EcommerceDesafio\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Isaac Brígido Rodrigues dos Santos",
+            "email": "isaac.brigido@gmail.com"
+        }
+    ],
+    "require": {
+        "slim/slim": "^4.0",
+        "slim/psr7": "^1.6",
+        "slim/php-view": "^3.2",
+        "illuminate/database": "^11.9",
+        "slim/http": "^1.3",
+        "tuupola/slim-jwt-auth": "^3.8",
+        "firebase/php-jwt": "^5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.4"
+    },
+    "config": {
+        "process-timeout": 1600
+    },
+    "scripts": {
+       "start": "php -S localhost:8080 src/index.php",
+       "test": "phpunit"
+       
+    }
+}
