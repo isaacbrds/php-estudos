@@ -1,6 +1,6 @@
 <script>
     import { LoginService } from '../services/LoginService';
-
+    import { reativoStorage } from '@/reativo/reativoStorage';
     export default{
         name: 'Login',
         data() {
@@ -15,10 +15,7 @@
                 try{
                     this.erro = '';
                     const token =  await new LoginService().login(this.email, this.password);
-                    debugger
-                    localStorage.setItem('token', token);
-
-                    alert('Login successful!' + token);
+                    reativoStorage.set('token', token);
                     this.$router.push('/clientes');
                 }catch(e){
                     this.erro = e.message;

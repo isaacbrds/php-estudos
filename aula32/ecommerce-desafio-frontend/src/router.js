@@ -20,11 +20,11 @@ const routes = [
   },{
     path: '/clientes',
     name: 'Clientes',
-    component: Clientes,
+    component: Clientes , meta: {requiresAuth: true},
   },{
     path: '/pedidos',
     name: 'Pedidos',
-    component: Pedidos,
+    component: Pedidos , meta: {requiresAuth: true},
   }
 ];
 
@@ -32,6 +32,15 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const loggedIn = localStorage.getItem('token');
+  if(to.matched.some( record => record.meta.requiresAuth) && !loggedIn){
+    next('/login');
+  }else{
+    next();
+  }
 });
 
 export default router;

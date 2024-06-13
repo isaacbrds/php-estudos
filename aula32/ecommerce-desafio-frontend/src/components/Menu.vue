@@ -1,4 +1,5 @@
 <script>
+    import { reativoStorage } from '../reativo/reativoStorage';
     export default{
         name: "Menu",
         data(){
@@ -9,13 +10,19 @@
         methods: {
             sair(){
                 if(confirm('Confirma?')){
-                    localStorage.clear();
+                    reativoStorage.remove('token');
                     this.$router.push('/login');
                 }
+            },
+            handleStorageChange(){
+                this.logado = reativoStorage.get("token") != null;
             }
         },
         created(){
-            this.logado = localStorage.getItem('token') != null;
+            window.addEventListener('storage', this.handleStorageChange);
+        },
+        umounted(){
+            window.removeEventListener('storage', this.handleStorageChange);
         }
     }
 </script>
