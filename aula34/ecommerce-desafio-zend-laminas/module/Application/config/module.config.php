@@ -46,7 +46,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
-            Controller\ClientesController::class => InvokableFactory::class,
+            Controller\ClientesController::class => Controller\Factory\GenericControllerFactory::class,
         ],
     ],
     'view_manager' => [
