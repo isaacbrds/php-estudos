@@ -22,12 +22,69 @@ return [
                 ],
             ],
             'clientes' => [
-                'type'    => Literal::class,
+                'type' => Literal::class,
                 'options' => [
                     'route'    => '/clientes',
                     'defaults' => [
                         'controller' => Controller\ClientesController::class,
                         'action'     => 'index',
+                    ],
+                ],
+                'may_terminate' => true, // permitir que esta rota seja terminável
+                'child_routes'  => [ // rotas filhas
+                    'novo' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/novo',
+                            'defaults' => [
+                                'action' => 'novo',
+                            ],
+                        ],
+                    ],
+                    'criar' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/criar',
+                            'defaults' => [
+                                'action' => 'criar',
+                            ],
+                        ],
+                    ],
+                    'editar' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/[:id]/editar',
+                            'constraints' => [
+                                'id' => '[0-9]+', // restringir o ID para conter apenas números
+                            ],
+                            'defaults' => [
+                                'action' => 'editar',
+                            ],
+                        ],
+                    ],
+                    'alterar' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/[:id]',
+                            'constraints' => [
+                                'id' => '[0-9]+', // restringir o ID para conter apenas números
+                            ],
+                            'defaults' => [
+                                'action' => 'alterar',
+                            ],
+                        ],
+                    ],
+                    'excluir' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/[:id]/excluir',
+                            'constraints' => [
+                                'id' => '[0-9]+', // restringir o ID para conter apenas números
+                            ],
+                            'defaults' => [
+                                'action' => 'excluir',
+                            ],
+                        ],
                     ],
                 ],
             ],
@@ -47,6 +104,14 @@ return [
         'factories' => [
             Controller\IndexController::class => InvokableFactory::class,
             Controller\ClientesController::class => Controller\Factory\GenericControllerFactory::class,
+        ],
+    ],
+    'controller_plugins' => [
+        'factories' => [
+            \Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
+        ],
+        'aliases' => [
+            'flashMessenger' => \Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger::class,
         ],
     ],
     'view_manager' => [
