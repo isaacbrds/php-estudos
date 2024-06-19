@@ -8,6 +8,8 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use \Doctrine\ORM\EntityManager;
 use \Application\Entity\Cliente;
+use Laminas\Paginator\Paginator;
+use Laminas\Paginator\Adapter\ArrayAdapter;
 
 class ClientesController extends AbstractActionController
 {
@@ -20,19 +22,15 @@ class ClientesController extends AbstractActionController
     
     public function indexAction()
     {
-        // $cliente = new Cliente();
-        // $cliente->nome = 'João Silva';
-        // $cliente->telefone = '(11) 1234-5678';
-        // $cliente->email = 'joao.silva@email.com';
-        // $cliente->endereco = 'Rua das Flores, 123, Cidade, UF';
-
-        // $this->entityManager->persist($cliente);
-        // $this->entityManager->flush();
-
-        $clientes = $this->entityManager->getRepository(Cliente::class)->findAll();
-
+        $allClientes = $this->entityManager->getRepository(Cliente::class)->findAll();
+    
+        $page = (int) $this->params()->fromQuery('page', 1);
+        $paginator = new Paginator(new ArrayAdapter($allClientes));
+        $paginator->setCurrentPageNumber($page);
+        $paginator->setItemCountPerPage(5);
+    
         return new ViewModel([
-            'clientes' => $clientes
+            'clientes' => $paginator
         ]);
     }
 

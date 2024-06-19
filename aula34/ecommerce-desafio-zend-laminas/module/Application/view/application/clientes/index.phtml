@@ -58,5 +58,9 @@
             <!-- Adicione mais linhas conforme necessário -->
         </tbody>
     </table>
+
+    <div class="pagination">
+        <?= $this->paginationControl($clientes, 'Sliding', 'layout/paginator', ['route' => 'clientes']); ?>
+    </div>
 </div>
 

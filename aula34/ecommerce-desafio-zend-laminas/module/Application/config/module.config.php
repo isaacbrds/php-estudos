@@ -129,5 +129,8 @@ return [
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
+        'template_map' => [
+            'pagination-control' => __DIR__ . '/../view/layout/paginator.phtml',
+        ],
     ],
 ];
