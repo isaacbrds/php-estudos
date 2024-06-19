@@ -12,7 +12,11 @@ class IndexController extends AbstractActionController
     public function indexAction()
     {
         return new JsonModel ([
-            "mensagem"=> "Bem vindo a API do Zend"
+            "mensagem"=> "Bem vindo a API do Zend",
+            "endpoints" => [
+                "clientes" => "/api/clientes",
+                "pedidos" => "/api/pedidos",
+            ]
             ]);
     }
 }

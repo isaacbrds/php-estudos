@@ -11,7 +11,7 @@ use Laminas\ServiceManager\Factory\InvokableFactory;
 return [
     'router' => [
         'routes' => [
-            'home' => [
+            'homeApi' => [
                 'type'    => Literal::class,
                 'options' => [
                     'route'    => '/api',
@@ -21,7 +21,7 @@ return [
                     ],
                 ],
             ],
-            'clientes' => [
+            'clientesApi' => [
                 'type' => Literal::class,
                 'options' => [
                     'route'    => '/api/clientes',
@@ -44,12 +44,24 @@ return [
                    'alterar' => [
                         'type' => Segment::class,
                         'options' => [
-                            'route' => '/[:id]',
+                            'route' => '/[:id]/alterar',
                             'constraints' => [
                                 'id' => '[0-9]+', // restringir o ID para conter apenas números
                             ],
                             'defaults' => [
                                 'action' => 'alterar',
+                            ],
+                        ],
+                    ],
+                    'mostrar' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => '/[:id]',
+                            'constraints' => [
+                                'id' => '[0-9]+', // restringir o ID para conter apenas números
+                            ],
+                            'defaults' => [
+                                'action' => 'mostrar',
                             ],
                         ],
                     ],
@@ -64,16 +76,6 @@ return [
                                 'action' => 'excluir',
                             ],
                         ],
-                    ],
-                ],
-            ],
-            'api' => [
-                'type'    => Segment::class,
-                'options' => [
-                    'route'    => '/api[/:action]',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action'     => 'index',
                     ],
                 ],
             ],
