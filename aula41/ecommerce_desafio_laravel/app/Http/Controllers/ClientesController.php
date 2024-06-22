@@ -23,7 +23,9 @@ class ClientesController extends Controller
     public function store(Request $request)
     {
         $validatedData = $this->formValidate($request);
-
+        
+       
+        
         $cliente = Cliente::create($validatedData);
         return redirect('/clientes')->with('success', 'Cliente criado com sucesso.');
     }
@@ -77,7 +79,6 @@ class ClientesController extends Controller
             'email' => 'required|email|max:255',
             'endereco' => 'required',
         ], $customMessages);
-
         return $validatedData;
     }
 }
