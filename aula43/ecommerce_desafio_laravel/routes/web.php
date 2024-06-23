@@ -19,5 +19,5 @@ use App\Http\Controllers\ClientesController;
 // });
 
 Route::get('/', [HomeController::class, 'index']);
-Route::resource('clientes', ClientesController::class);
+Route::resource('/clientes', ClientesController::class);
     
